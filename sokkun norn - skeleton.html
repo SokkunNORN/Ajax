@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Final exam</title>
+		<meta name="author" content="Your name">
+		<link rel="stylesheet" href="sokkun norn - animate.css">
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+		<style>
+			h2 {
+				text-align: center;
+			}
+			.container {
+				display: inline-flex;
+				padding: 0 200px;
+			}
+			ul {
+				margin: 0 100px;
+			}
+
+
+		</style>
+	</head>
+	<body>
+		
+		<h2>List of students</h2>
+		<div class="container">
+			<div id='list_wepa'>
+				<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+				Loading, please wait...
+			</div>
+			<div id='list_wepb'>
+
+			</div>
+		</div>
+
+		<script src="sokkun norn - jquery-2.2.0.min.js"></script>
+
+		<SCRIPT LANGUAGE="JavaScript">
+
+			function getStudents()
+			{
+				var url = "http://kratie.pnc.lan/laura.hennequin/ssl/exam/students.php";
+				$.ajax({
+					url: url,
+					data: "json"
+				})
+				.done(function(data){
+
+					var wepa = "<h2 class='animated fadeInLeft slower'>WEP A</h2>"
+						wepa += "<ul class='animated fadeInLeft slower'>";
+					var wepb = "<h2 class='animated fadeInRight slower'>WEP B</h2>"
+						wepb += "<ul class='animated fadeInRight slower'>";
+
+					for (var i = 0; i < data['WEPA'].length; i++ ) {
+						wepa += "<li>" + data['WEPA'][i]['name'] + " " + 
+							data['WEPA'][i]['score'] + "</li>";
+					}
+
+					for (var i = 0; i < data['WEPB'].length; i++ ) {
+						wepb += "<li>" + data['WEPB'][i]['name'] + " " + 
+							data['WEPB'][i]['score'] + "</li>";
+					}
+
+					wepa += "</ul>";
+					wepb += "</ul>";
+					console.log(data);
+					document.getElementById('list_wepa').innerHTML = wepa;
+					document.getElementById('list_wepb').innerHTML = wepb;
+				})
+				.fail(function(err){
+					document.getElementById('list_wepa').innerHTML = "Something wrong with data!";
+				});
+			}
+
+			$(document).ready(function(){
+				getStudents();
+			});
+
+		</SCRIPT>
+	</body>
+</html>
